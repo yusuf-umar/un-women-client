@@ -1,38 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 import TopBar from "../../component/topBar/topBar";
 import "./style.css";
-import { Link } from "react-router-dom";
 import FacilitatorNav from "../../component/navTab/facilitatorNav";
 import axios from "axios";
 import ParticipantContext from "../../provider/participantProvider";
 import FacilitatorPollGraph from "../facilitatorPollResult/facilitator-poll-graph";
 
 const FacilitatorPoll = () => {
-  const [topVote, setTopVote] = useState([]);
-  const [updatedRes, setUpdatedRes] = useState([]);
   const [topFour, setTopFour] = useState([]);
   const [finalFourRes, setFinalFourRes] = useState([]);
-  const [topTowVotes, setTopTowVotes] = useState([]);
-  const [getSortedRes, setGetSortedRes] = useState([]);
-  const { responseState, RESPONSE } = useContext(ParticipantContext);
+
+  const {  RESPONSE } = useContext(ParticipantContext);
   const [success, setSuccess] = useState("");
   const [isPollEnded, setIsPollEnded] = useState(false);
   const [isPollEnabled, setIsPollEnabled] = useState(false);
   const [showresult, setShowResult] = useState(false);
 
 
-  // var topres = [];
-  // function showTopRes() {
-  //   topres = updatedRes.slice(0, 4);
-  //   setGetSortedRes(topres);
-  //   // console.log({ getSortedRes: getSortedRes });
-  // }
-
-  // useEffect(() => {
-  //   showTopRes();
-
-
-  // }, [updatedRes, topVote]);
 
 
 
@@ -63,11 +47,7 @@ const FacilitatorPoll = () => {
   async function handleEnablePoll(e)  {
     e.preventDefault();
 
-    // await axios
-    //       .put("/api/final-top-two-vote/", topTowVotes)
-    //       .then((res) => {
-    //         console.log({ topTowVotes: res });
-    //       })
+
 
 
     axios
@@ -77,7 +57,6 @@ const FacilitatorPoll = () => {
         setSuccess("Poll Started");
 
         setTimeout(() => {
-          // setIsloading(false);
           window.location.reload();
         }, 1000);
       })

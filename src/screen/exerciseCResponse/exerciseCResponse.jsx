@@ -3,13 +3,7 @@ import "./style.css";
 import axios from "axios";
 import NavTab from "../../component/navTab/navTab";
 import TopBar from "../../component/topBar/topBar";
-import * as FileSaver from "file-saver";
-import * as XLSX from "xlsx";
-import jsPDF from "jspdf";
-import pdfMake from "pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
-import htmlToPdfmake from "html-to-pdfmake";
-import Pdf from "react-to-pdf";
+
 
 const ExerciseCResponse = () => {
   const [response, setResponse] = useState([]);
@@ -22,6 +16,9 @@ const ExerciseCResponse = () => {
 
   const ref = React.createRef();
   var topres = [];
+
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
 
   function showTopRes() {
     topres = shortedRes.slice(0, 2);
@@ -37,7 +34,7 @@ const ExerciseCResponse = () => {
 
   async function getAllReponses() {
     await axios
-      .get("/api/exercise")
+      .get(`${baseUrl}/exercise`)
       .then((res) => {
         setResponse(res.data);
       })
@@ -95,7 +92,7 @@ const ExerciseCResponse = () => {
   }
 
   async function getResponses() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
         setEnablePoll(res.data.enablePoll);
         setGetSortedRes(res.data.finalTopFourVote);

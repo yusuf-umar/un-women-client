@@ -19,6 +19,8 @@ import ExerciseScreen from "./screen/exerciseScreen/exerciseScreen";
 import ParticipantContext from "./provider/participantProvider";
 import ExerciseCResponse from "./screen/exerciseCResponse/exerciseCResponse";
 import FacilitatorExerRes from "./screen/facilitatorExerRes/facilitatorExerRes";
+import axios from "axios";
+
 
 function App() {
   const { responseState, RESPONSE } = useContext(ParticipantContext);
@@ -26,6 +28,30 @@ function App() {
   useEffect(() => {
     RESPONSE.recoverAllResponse();
   }, []);
+
+
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api"
+
+  async function getAllReponses() {
+  
+  
+      await axios
+        .get(`${baseUrl}/get`,
+          
+        )
+        .then((res) => {
+         console.log({output:res.data})
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      
+    }
+    useEffect(() => {
+      getAllReponses();
+    }, []);
+  
+    
   return (
     <div className="App">
       <Router>

@@ -1,28 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./style.css";
 import TopBar from "../../component/topBar/topBar";
-import { Link } from "react-router-dom";
 import axios from "axios";
-import ParticipantContext from "../../provider/participantProvider";
 import FacilitatorNav from "../../component/navTab/facilitatorNav";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ScreenSize from "../../component/screenSize/screenSize";
 
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import * as FileSaver from "file-saver";
-import * as XLSX from "xlsx";
-// import { handleCrvDownload } from "./faa";
+
+
 
 const FacilitatorResponse = ({ csvData, fileName }) => {
-  //
+  
   const [getResponseData, setGetResponseData] = useState([]);
   const [showEdit, setShowEdit] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
   const getResponses = async () => {
-    const responseData = await axios.get("/api/get/");
+    const responseData = await axios.get(`${baseUrl}/get/`);
     getResponseData &&
       setGetResponseData(responseData.data.participantResponse);
 
@@ -39,7 +35,7 @@ const FacilitatorResponse = ({ csvData, fileName }) => {
 
     setShowEdit(false);
     await axios
-      .put("/api/modify", getResponseData)
+      .put(`${baseUrl}/modify`, getResponseData)
       .then((res) => {
         setSuccess(res);
         console.log(res);

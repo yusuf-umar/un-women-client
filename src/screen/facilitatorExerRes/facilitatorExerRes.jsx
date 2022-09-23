@@ -16,6 +16,9 @@ const FacilitatorExerRes = () => {
 
   var topres = [];
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
   function showTopRes() {
     topres = shortedRes;
     setGetSortedRes(topres);
@@ -23,10 +26,9 @@ const FacilitatorExerRes = () => {
 
   async function getAllReponses() {
     await axios
-      .get("/api/exercise")
+      .get(`${baseUrl}/exercise`)
       .then((res) => {
         setResponse(res.data);
-        // console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -34,7 +36,7 @@ const FacilitatorExerRes = () => {
   }
 
   async function getResponses() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
         setResA(res.data.finalTopFourVote[0])
         setResB(res.data.finalTopFourVote[1])
@@ -51,8 +53,7 @@ const FacilitatorExerRes = () => {
   }
 
   useEffect(() => {
-    // formatDate(date);
-    // console.log(getSortedRes.length);
+
     getAllReponses();
     getResponses();
 

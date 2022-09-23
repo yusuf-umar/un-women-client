@@ -10,16 +10,15 @@ import ParticipantContext from "../../provider/participantProvider";
 const FacilitatorBarChart = () => {
   const [pollRes, setPollRes] = useState(null);
   const navigate = useNavigate();
-  const { responseState, RESPONSE } = useContext(ParticipantContext);
+  const {  RESPONSE } = useContext(ParticipantContext);
   const [success, setSuccess] = useState("");
-  // const [topVote, setTopVote] = useState([]);
 
-  // useEffect(() => {
-  //   getTopVot();
-  // }, []);
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
   async function handleCreatePoll() {
     await axios
-      .post("/api/poll/")
+      .post(`${baseUrl}/poll/`)
       .then((res) => {
         setPollRes(res.data.enablePoll);
         RESPONSE.savePollStatus(res.data);
@@ -57,13 +56,9 @@ const FacilitatorBarChart = () => {
               <PlentyValueGraph />
             </div>
           </div>
-          {/* <span>
-            A poll will be created from the top four responses from this chart
-          </span> */}
+        
         </div>
-        {/* <div onClick={handleCreatePoll} className="create-poll-btn">
-          <span>Create Poll</span>
-        </div> */}
+      
       </div>
     </div>
   );

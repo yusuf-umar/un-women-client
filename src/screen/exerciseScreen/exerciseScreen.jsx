@@ -21,12 +21,14 @@ const ExerciseScreen = () => {
   const [resA, setResA] = useState([]);
   const [resB, setResB] = useState([]);
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
 
   function handleSubmit(e) {
     e.preventDefault();
     try {
       axios
-        .post("/api/exercise/", {
+        .post(`${baseUrl}/exercise/`, {
           exerciseCFirstA,
           exerciseCFirstB,
           exerciseCSecondA,
@@ -51,7 +53,7 @@ const ExerciseScreen = () => {
 
 
   async function getResponses() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
 
         setEnablePoll(res.data.enablePoll);

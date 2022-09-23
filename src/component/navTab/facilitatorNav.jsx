@@ -35,10 +35,13 @@ const FacilitatorNav = ({
     p: 4,
   };
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
   function handleClearDb(e) {
     e.preventDefault();
     axios
-      .put("/api/clear")
+      .put(`${baseUrl}/clear`)
       .then((res) => {
         // setSuccess(res);
         // console.log(res);
@@ -58,7 +61,7 @@ const FacilitatorNav = ({
         }, 3000);
       });
 
-    axios.delete("/api/clear-response/");
+    axios.delete(`${baseUrl}/clear-response/`);
   }
   return (
     <div className="facilitator-con">

@@ -1,9 +1,5 @@
 import React, { useState, useEffect,useContext } from "react";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Chart } from "react-chartjs-2";
-import ScreenSize from "../../component/screenSize/screenSize";
-import ParticipantContext from "../../provider/participantProvider";
 
 import axios from "axios";
 
@@ -20,11 +16,13 @@ const FacilitatorPollGraph = () => {
   let sortedVoteStrr = [];
   let sortedVoteNum = [];
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
   async function getTopVot() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
         setTopVote(res.data.topTwoVote);
-        // console.log({ topVote: topVote });
       })
       .catch((err) => {
         console.log(err);
@@ -33,38 +31,31 @@ const FacilitatorPollGraph = () => {
 
 
   async function getTopVotData() {
-    //remove the duplicate from the list
     const map = allVote.reduce(
       (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
       new Map()
     );
     setSortedVote([...map.entries()].sort(({ [1]: a }, { [1]: b }) => b - a));
-    // console.log({ sortedVote: sortedVote });
     sortedVote.map((x) => {
       return sortedVoteStrr.push(x[0]);
     });
-    // console.log({ sortedVoteStrr: sortedVoteStrr });
 
     sortedVote.map((x) => {
       return sortedVoteNum.push(x[1]);
     });
 
 
-    // console.log({ sortedVoteNum: sortedVoteNum });
 
     if(sortedVoteNum.length >0){
-      // console.log("sortedVoteNum has value")
-      axios.put("/api/final-top-four-vote", sortedVoteString); //final-top-four-vote
+      axios.put(`${baseUrl}/final-top-four-vote`, sortedVoteString); 
 
       
-      // RESPONSE.saveTopFourRes(sortedVoteStrr);//saveTopFourRes====
 
 
     }
 
 
     await setUniqueVote(Array.from(new Set(allVote)));
-    // console.log({ uniqueVote: uniqueVote });
 
     setSortedVoteString(sortedVoteStrr);
     setSortedVoteNumber(sortedVoteNum);
@@ -87,7 +78,6 @@ const FacilitatorPollGraph = () => {
     getFirstVote();
     getsecondVote();
     getTopVotData();
-    // console.log({ allVote: allVote });
   }, [topVote]);
 
 

@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Chart } from "react-chartjs-2";
+import Chart from 'chart.js/auto';
+
 import ParticipantContext from "../../provider/participantProvider";
 import axios from "axios";
 
 const PlentyValueGraph = () => {
   //
-  const { responseState, RESPONSE } = useContext(ParticipantContext);
+  const {  RESPONSE } = useContext(ParticipantContext);
 
   let allResponse = [];
   let sortedResStrr = [];
@@ -18,8 +18,11 @@ const PlentyValueGraph = () => {
   const [sortedResNumber, setSortedResNumber] = useState([]);
   var sortedRes = [];
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
   async function getAllResponseData() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
         setGetResponseData(res.data.participantResponse);
       })
@@ -47,12 +50,11 @@ const PlentyValueGraph = () => {
 
     setSortedResString(sortedResStrr);
 
-    axios.put("/api/sorted-response", sortedResStrr);
+    axios.put(`${baseUrl}/sorted-response`, sortedResStrr);
 
     setSortedResNumber(sortedResNum);
     RESPONSE.saveSortedResponse(sortedResStrr);
 
-    // console.log({ sortedResStrr: sortedResStrr });
   };
 
   const saveResponse = async () => {
@@ -66,17 +68,13 @@ const PlentyValueGraph = () => {
     });
   };
 
-  // async function getProviderResponse() {
-  //   await setGetResponseData(responseState.allResponse);
-  //   // console.log({ getResponseData: getResponseData });
-  // }
+
 
   useEffect(() => {
     getAllResponseData();
     saveResponse();
     saveResponseTwo();
 
-    // getProviderResponse();
     responseVal();
   }, [getResponseData]);
 

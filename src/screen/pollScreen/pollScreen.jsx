@@ -23,15 +23,16 @@ const PollScreen = () => {
 
   const [voteInfo, setVoteInfo] = useState({
     allVotes: [],
-    // response: [],
   });
 
   var topres = [];
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
   async function getResponses() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
-        // RESPONSE.savePollStatus(res.data.enablePoll);
         RESPONSE.savePollStatus(res.data.enablePoll);
         setEnablePoll(res.data.enablePoll);
         setIsPollEnd(res.data.endPoll);
@@ -68,12 +69,10 @@ const PollScreen = () => {
         topVote.map((x) => {
           return newVote.push(x.name);
         });
-        // console.log({ newVote: newVote });
 
         await axios
-          .put("/api/vote/", newVote)
+          .put(`${baseUrl}/vote/`, newVote)
           .then((res) => {
-            // console.log({ voteRes: res });
           })
           .catch((err) => {
             console.log(err + "error sending vote");

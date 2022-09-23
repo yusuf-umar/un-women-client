@@ -26,21 +26,22 @@ const WorkBook = () => {
   let sortedResStrr = [];
   var sortedRes = [];
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api"
+
+
   const responseVal = async () => {
-    //remove the duplicate from the list
     const map = allResponse.reduce(
       (acc, e) => acc.set(e, (acc.get(e) || 0) + 1),
       new Map()
     );
 
     sortedRes = [...map.entries()].sort(({ [1]: a }, { [1]: b }) => b - a);
-    // await RESPONSE.saveSortedResponse(sortedRes);
 
     sortedRes.map((x) => {
       return sortedResStrr.push(x[0]);
     });
 
-    axios.put("/api/sorted-response", sortedResStrr);
+    axios.put(`${baseUrl}/sorted-response`, sortedResStrr);
   };
 
   const saveResponse = async () => {
@@ -55,10 +56,9 @@ const WorkBook = () => {
   };
 
   async function getResponses() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get`)
       .then((res) => {
         setGetResponseData(res.data.participantResponse);
-        // console.log({ getResponseData: getResponseData });
         RESPONSE.saveAllResponse(res.data.participantResponse);//saveTopFourRes
         RESPONSE.savePollStatus(res.data.enablePoll);
         setIsPollEnd(res.data.endPoll);
@@ -73,7 +73,6 @@ const WorkBook = () => {
     saveResponseTwo();
     saveResponse();
     responseVal();
-    // console.log({ allResponse: allResponse });
   }, [getResponseData]);
 
   const style = {
@@ -95,7 +94,7 @@ const WorkBook = () => {
     setIsloading(true);
 
     try {
-      const { data } = await axios.put("/api/", {
+      const { data } = await axios.put(`${baseUrl}`, {
         responseOne: responseOne.trim(),
         responseTwo: responseTwo.trim(),
       });

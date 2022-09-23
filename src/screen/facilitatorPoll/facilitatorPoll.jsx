@@ -18,6 +18,7 @@ const FacilitatorPoll = () => {
 
 
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
 
 
 
@@ -26,7 +27,7 @@ const FacilitatorPoll = () => {
 
     
       await axios
-        .put("/api/end-poll/")
+        .put(`${baseUrl}/end-poll/`)
         .then((res) => {
           RESPONSE.saveEndPoll(res.data.endPoll);
           console.log({ endPoll: res.data });
@@ -51,7 +52,7 @@ const FacilitatorPoll = () => {
 
 
     axios
-      .put("/api/enable-poll")
+      .put(`${baseUrl}/enable-poll`)
       .then((res) => {
      
         setSuccess("Poll Started");
@@ -69,24 +70,14 @@ const FacilitatorPoll = () => {
       });
   }
   async function getResponses() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
        
         setTopFour(res.data.sortedResponse);
-        // console.log({top:res.data.sortedResponse})
         setIsPollEnabled(res.data.enablePoll);
-        // console.log({isPollEnabled:res.data.enablePoll})
      
         setShowResult(res.data.showResult);
         setIsPollEnded(res.data.endPoll);
-
-
-        
-
-        // console.log({isPollEnabled:isPollEnabled})
-        // console.log({endPoll:res.data.endPoll})
-        console.log({isPollEnded:isPollEnded})
-
 
       })
       .catch((err) => {

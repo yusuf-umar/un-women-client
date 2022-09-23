@@ -10,8 +10,13 @@ import axios from "axios";
 const PlenaryValues = () => {
   const { responseState, RESPONSE } = useContext(ParticipantContext);
   const [isPoll, setIsPoll] = useState(false);
+
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
+
   async function getResponses() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
         setIsPoll(res.data.enablePoll);
       })

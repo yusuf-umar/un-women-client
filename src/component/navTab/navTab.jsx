@@ -18,12 +18,14 @@ const NavTab = ({
   const [isEnablePoll, setIsEnablePoll] = useState(false);
   const { responseState, RESPONSE } = useContext(ParticipantContext);
 
+  const baseUrl = "https://thriving-mooncake-c43c5f.netlify.app/.netlify/functions/api" //${baseUrl}
+
+
   async function getResponses() {
-    await axios("/api/get/")
+    await axios(`${baseUrl}/get/`)
       .then((res) => {
         RESPONSE.savePollStatus(res.data.endPoll);
         setIsEnablePoll(res.data.enablePoll);
-        // console.log({ isEnablePoll: isEnablePoll });
       })
       .catch((err) => {
         console.log(err);
